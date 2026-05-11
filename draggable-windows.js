@@ -1,16 +1,16 @@
 (function () {
-  var desktopArea = document.querySelector(".desktop-area");
+  let desktopArea = document.querySelector(".desktop-area");
   if (!desktopArea) return;
 
-  var windowElements = Array.prototype.slice.call(
+  let windowElements = Array.prototype.slice.call(
     desktopArea.querySelectorAll(".win7-window")
   );
   if (windowElements.length === 0) return;
 
-  var highestZIndex = 10;
+  let highestZIndex = 10;
   windowElements.forEach(function (windowEl) {
-    var zIndexText = getComputedStyle(windowEl).zIndex || "0";
-    var zIndexValue = parseInt(zIndexText, 10);
+    let zIndexText = getComputedStyle(windowEl).zIndex || "0";
+    let zIndexValue = parseInt(zIndexText, 10);
     if (!isNaN(zIndexValue)) {
       highestZIndex = Math.max(highestZIndex, zIndexValue);
     }
@@ -22,7 +22,7 @@
   }
 
   windowElements.forEach(function (windowEl) {
-    var titleBar = windowEl.querySelector(".title-bar");
+    let titleBar = windowEl.querySelector(".title-bar");
     if (!titleBar) return;
 
     titleBar.style.cursor = "move";
@@ -33,12 +33,12 @@
 
       bringWindowToFront(windowEl);
 
-      var windowRect = windowEl.getBoundingClientRect();
-      var parentElement = windowEl.offsetParent || desktopArea;
-      var parentRect = parentElement.getBoundingClientRect();
+      let windowRect = windowEl.getBoundingClientRect();
+      let parentElement = windowEl.offsetParent || desktopArea;
+      let parentRect = parentElement.getBoundingClientRect();
 
-      var pointerOffsetX = event.clientX - windowRect.left;
-      var pointerOffsetY = event.clientY - windowRect.top;
+      let pointerOffsetX = event.clientX - windowRect.left;
+      let pointerOffsetY = event.clientY - windowRect.top;
 
       windowEl.style.right = "auto";
       windowEl.style.bottom = "auto";
@@ -79,3 +79,30 @@
   });
 })();
 
+(function () {
+  let timeEl = document.querySelector(".taskbar-clock-time");
+  let dateEl = document.querySelector(".taskbar-clock-date");
+  let timeRoot = document.getElementById("taskbar-time");
+  function tick() {
+      let d = new Date();
+      if (timeEl) {
+          timeEl.textContent = d.toLocaleTimeString(undefined, {
+              hour: "numeric",
+              minute: "2-digit",
+              second: "2-digit"
+          });
+      }
+      if (dateEl) {
+          dateEl.textContent = d.toLocaleDateString(undefined, {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric"
+          });
+      }
+      if (timeRoot) {
+          timeRoot.dateTime = d.toISOString();
+      }
+  }
+  tick();
+  setInterval(tick, 1000);
+})();

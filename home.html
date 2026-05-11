@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="window-body win7-body win7-body--socials">
-                <a class="social-link" href="#" title="GitHub">
+                <a class="social-link" href="https://github.com/JustinSabangan" title="GitHub">
                     <img src="imgs/github.svg" width="88" height="88" alt="GitHub">
                 </a>
                 <a class="social-link" href="#" title="LinkedIn">
@@ -168,107 +168,7 @@
     </nav>
 
     <script src="draggable-windows.js"></script>
-    <script>
-        (function () {
-            // #region agent log (layout-debug)
-            function agentLog(hypothesisId, message, data) {
-                fetch('http://127.0.0.1:7625/ingest/5df3f4a4-b095-495c-b4fa-d14a974ed722', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '3a44e2' },
-                    body: JSON.stringify({
-                        sessionId: '3a44e2',
-                        runId: 'pre-fix',
-                        hypothesisId: hypothesisId,
-                        location: 'home.html:layout-debug',
-                        message: message,
-                        data: data || {},
-                        timestamp: Date.now()
-                    })
-                }).catch(function () { });
-            }
-            function snapshotLayout(tag) {
-                var mq = window.matchMedia && window.matchMedia('(max-width: 720px)');
-                agentLog('H_viewport', 'viewport', {
-                    tag: tag,
-                    href: String(location.href),
-                    innerWidth: window.innerWidth,
-                    innerHeight: window.innerHeight,
-                    devicePixelRatio: window.devicePixelRatio,
-                    mqMax720: mq ? mq.matches : null
-                });
-
-                var sheets = Array.prototype.slice.call(document.styleSheets || []).map(function (s) {
-                    return { href: s.href || '(inline)', disabled: !!s.disabled };
-                });
-                agentLog('H_stylesheets', 'stylesheets', { tag: tag, sheets: sheets });
-
-                var nodes = [
-                    '.win7-window.win-welcome',
-                    '.win7-window.win-me',
-                    '.win7-window.win-links',
-                    '.win7-window.win-socials',
-                    '.win7-window.win-contact'
-                ];
-                var computed = {};
-                nodes.forEach(function (sel) {
-                    var el = document.querySelector(sel);
-                    if (!el) {
-                        computed[sel] = { exists: false };
-                        return;
-                    }
-                    var cs = window.getComputedStyle(el);
-                    computed[sel] = {
-                        exists: true,
-                        position: cs.position,
-                        zIndex: cs.zIndex,
-                        top: cs.top,
-                        right: cs.right,
-                        bottom: cs.bottom,
-                        left: cs.left,
-                        width: cs.width,
-                        transform: cs.transform
-                    };
-                });
-                agentLog('H_computed', 'computed-window-styles', { tag: tag, computed: computed });
-            }
-            snapshotLayout('script-start');
-            // #endregion agent log (layout-debug)
-
-            var timeEl = document.querySelector(".taskbar-clock-time");
-            var dateEl = document.querySelector(".taskbar-clock-date");
-            var timeRoot = document.getElementById("taskbar-time");
-            function tick() {
-                var d = new Date();
-                if (timeEl) {
-                    timeEl.textContent = d.toLocaleTimeString(undefined, {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        second: "2-digit"
-                    });
-                }
-                if (dateEl) {
-                    dateEl.textContent = d.toLocaleDateString(undefined, {
-                        month: "numeric",
-                        day: "numeric",
-                        year: "numeric"
-                    });
-                }
-                if (timeRoot) {
-                    timeRoot.dateTime = d.toISOString();
-                }
-            }
-            tick();
-            setInterval(tick, 1000);
-
-            // #region agent log (layout-debug-onload)
-            if (document.readyState === 'complete') {
-                snapshotLayout('ready-complete');
-            } else {
-                window.addEventListener('load', function () { snapshotLayout('window-load'); }, { once: true });
-            }
-            // #endregion agent log (layout-debug-onload)
-        })();
-    </script>
+    
 
 </body>
 
