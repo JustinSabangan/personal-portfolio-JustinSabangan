@@ -1,7 +1,7 @@
 (function () {
-  const MIN_DELAY = 30000;
-  const MAX_DELAY = 90000;
-  const DISPLAY_DURATION = 5000;
+  const MIN_DELAY = 15000;
+  const MAX_DELAY = 30000;
+  const DISPLAY_DURATION = 7500;
 
   const audio = new Audio("audio/music/sfx/notify.mp3");
 
